@@ -1,15 +1,15 @@
 {
-  "name": "goit-js-hw-09",
+  "name": "goit-js-hw-10",
   "version": "2.0.0",
   "description": "",
   "homepage": "",
   "scripts": {
     "start": "parcel src/*.html",
-    "build": "parcel build src/*.html --public-url /goit-js-hw-09/"
+    "build": "parcel build src/*.html --public-url /goit-js-hw-10/"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kobeza1/goit-js-hw-09.git"
+    "url": "git+https://github.com/kobeza1/goit-js-hw-10.git"
   },
   "keywords": [],
   "author": "Dmytro Kobeza",
@@ -18,7 +18,7 @@
     "url": "https://github.com/goitacademy/parcel-project-template/issues"
   },
   "dependencies": {
-    "flatpickr": "^4.6.13",
+    "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
     "modern-normalize": "^1.1.0",
     "notiflix": "^3.2.5"
