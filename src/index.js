@@ -1,39 +1,70 @@
 import './css/styles.css';
 import fetchCountries from './fetchCountries';
 import debounce from 'lodash.debounce';
+import Notiflix from 'notiflix';
 
 const DEBOUNCE_DELAY = 300;
 
-const inputRef = document.querySelector('#search-box');
-const countryInfo = document.querySelector('.country-info');
+refs = {
+  input: document.querySelector('#search-box'),
+  countryInfo: document.querySelector('.country-info'),
+  countryList: document.querySelector('.country-list'),
+};
 
-inputRef.addEventListener('input', debounce(onSearchRender, DEBOUNCE_DELAY));
+refs.input.addEventListener('input', debounce(onSearchRender, DEBOUNCE_DELAY));
 
 function onSearchRender() {
-  const searchQuery = inputRef.value;
-  fetchCountries(searchQuery)
-    .then(renderCountryInfo)
-    .catch(error => console.log(error));
+  const searchQuery = refs.input.value;
+  if (searchQuery.trim()) {
+    fetchCountries(searchQuery).then(renderCountryInfo).catch(onFetchError);
+    refs.countryInfo.innerHTML = '';
+    refs.countryList.innerHTML = '';
+  }
 }
 
-function renderCountryInfo(data) {
-  const country = data[0];
-  const markup = `<div>
-    <svg aria-label='Country flag'>
-      <use class='country-flag' href=''></use>
-    </svg>
-    <h2>${country.name.official}</h2>
-  </div>
-  <ul>
-    <li>
-      <p>Capital: ${country.capital}</p>
-    </li>
-    <li>
-    <p>Population: ${country.population}</p>
-    </li>
-    <li>
-    <p>Languages: ${country.languages}</p>
-    </li>
-  </ul>`;
-  countryInfo.innerHTML = markup;
+function renderCountryInfo(data = []) {
+  const countriesArray = data;
+  refs.countryList.innerHTML = '';
+
+  // console.log(countriesArray);
+
+  if (countriesArray.length > 10) {
+    Notiflix.Notify.warning(
+      'Too many matches found. Please enter a more specific name.'
+    );
+  } else {
+    countriesArray.forEach(country => {
+      const { name, capital, population, languages, flags } = country;
+
+      if (countriesArray.length === 1) {
+        const markup = `<div class='title-container'>
+    <img class="country-icon" src="${flags.png}" width='60' height='40'></img>
+    <h2>${name.official}</h2>
+    </div>
+    <ul>
+      <li>
+        <p>Capital: ${capital}</p>
+      </li>
+      <li>
+      <p>Population: ${population}</p>
+      </li>
+      <li>
+      <p>Languages: ${Object.values(languages).join(', ')}</p>
+      </li>
+    </ul>`;
+        refs.countryInfo.innerHTML = markup;
+      } else {
+        const markup = `<li>
+        <img class="country-icon" src="${flags.png}" width='20' height='15'></img>
+        <p class="country-list__text">${name.official}</p>
+      </li>`;
+
+        refs.countryList.insertAdjacentHTML('beforeend', markup);
+      }
+    });
+  }
+}
+
+function onFetchError(error) {
+  Notiflix.Notify.failure('Oops, there is no country with that name');
 }
