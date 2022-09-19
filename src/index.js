@@ -14,9 +14,9 @@ const refs = {
 refs.input.addEventListener('input', debounce(onSearchRender, DEBOUNCE_DELAY));
 
 function onSearchRender() {
-  const searchQuery = refs.input.value;
+  const searchQuery = refs.input.value.trim();
   refs.countryInfo.innerHTML = '';
-  if (searchQuery.trim()) {
+  if (searchQuery) {
     refs.countryList.innerHTML = '';
     fetchCountries(searchQuery).then(renderCountryInfo).catch(onFetchError);
   }
