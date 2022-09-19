@@ -15,10 +15,10 @@ refs.input.addEventListener('input', debounce(onSearchRender, DEBOUNCE_DELAY));
 
 function onSearchRender() {
   const searchQuery = refs.input.value;
+  refs.countryInfo.innerHTML = '';
   if (searchQuery.trim()) {
-    fetchCountries(searchQuery).then(renderCountryInfo).catch(onFetchError);
-    refs.countryInfo.innerHTML = '';
     refs.countryList.innerHTML = '';
+    fetchCountries(searchQuery).then(renderCountryInfo).catch(onFetchError);
   }
 }
 
@@ -38,7 +38,7 @@ function renderCountryInfo(data = []) {
 
       if (countriesArray.length === 1) {
         const markup = `<div class='title-container'>
-    <img class="country-icon" src="${flags.png}" width='60' height='40'></img>
+    <img class="country-icon" src="${flags.svg}" width='60' height='40'></img>
     <h2>${name.official}</h2>
     </div>
     <ul>
