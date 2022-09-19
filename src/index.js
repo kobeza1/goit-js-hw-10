@@ -16,8 +16,9 @@ refs.input.addEventListener('input', debounce(onSearchRender, DEBOUNCE_DELAY));
 function onSearchRender() {
   const searchQuery = refs.input.value.trim();
   refs.countryInfo.innerHTML = '';
+  refs.countryList.innerHTML = '';
+
   if (searchQuery) {
-    refs.countryList.innerHTML = '';
     fetchCountries(searchQuery).then(renderCountryInfo).catch(onFetchError);
   }
 }
