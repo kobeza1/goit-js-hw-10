@@ -29,7 +29,7 @@ function renderCountryInfo(data = []) {
   // console.log(countriesArray);
 
   if (countriesArray.length > 10) {
-    Notiflix.Notify.warning(
+    Notiflix.Notify.info(
       'Too many matches found. Please enter a more specific name.'
     );
   } else {
